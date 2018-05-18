@@ -10,10 +10,21 @@ SimpleTree::SimpleTree()
     this->root = NULL;
 };
 
+void SimpleTree::destroy(tree_element* cur_elem){
+    if (root != NULL)
+    {
+        tree_element* r = root->right;
+        tree_element* l = root->left;
+        destroy(r);
+        destroy(l);
+        delete root;
+    }
+}
+
 SimpleTree::~SimpleTree()
 {
-    tree_element* cur_elem = this->root;
-    delete_tree(cur_elem);
+    if(root != NULL)
+        destroy(root);
 };
 
 unsigned char SimpleTree::height(tree_element* p)
@@ -40,7 +51,7 @@ void SimpleTree::fixheight(tree_element* p)
 
 }
 
-tree_element* SimpleTree::rotateright(tree_element* p) // правый поворот вокруг p
+tree_element* SimpleTree::rotateright(tree_element* p) // ГЇГ°Г ГўГ»Г© ГЇГ®ГўГ®Г°Г®ГІ ГўГ®ГЄГ°ГіГЈ p
 {
     cout << "rotate right" << endl;
     tree_element* q = p->left;
@@ -54,7 +65,7 @@ tree_element* SimpleTree::rotateright(tree_element* p) // правый поворот вокруг 
     return q;
 }
 
-tree_element* SimpleTree::rotateleft(tree_element* q) // левый поворот вокруг q
+tree_element* SimpleTree::rotateleft(tree_element* q) // Г«ГҐГўГ»Г© ГЇГ®ГўГ®Г°Г®ГІ ГўГ®ГЄГ°ГіГЈ q
 {
     cout << "rotate left" << endl;
     tree_element* p = q->right;
@@ -69,7 +80,7 @@ tree_element* SimpleTree::rotateleft(tree_element* q) // левый поворот вокруг q
     return p;
 }
 
-tree_element* SimpleTree::balance(tree_element* p) // балансировка узла p
+tree_element* SimpleTree::balance(tree_element* p) // ГЎГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГ  ГіГ§Г«Г  p
 {
     fixheight(p);
 
@@ -86,7 +97,7 @@ tree_element* SimpleTree::balance(tree_element* p) // балансировка узла p
         return rotateright(p);
     }
 
-    return p; // балансировка не нужна
+    return p; // ГЎГ Г«Г Г­Г±ГЁГ°Г®ГўГЄГ  Г­ГҐ Г­ГіГ¦Г­Г 
 }
 
 void SimpleTree::delete_tree(tree_element* cur_elem)
@@ -122,7 +133,7 @@ tree_element* SimpleTree::create(int value)
 
 void SimpleTree::insert(int value)
 {
-    // Создали элемент физически
+    // Г‘Г®Г§Г¤Г Г«ГЁ ГЅГ«ГҐГ¬ГҐГ­ГІ ГґГЁГ§ГЁГ·ГҐГ±ГЄГЁ
     tree_element* elem = this->create(value);
 
     tree_element* prom = this->root;
