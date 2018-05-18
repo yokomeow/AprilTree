@@ -11,13 +11,13 @@ SimpleTree::SimpleTree()
 };
 
 void SimpleTree::destroy(tree_element* cur_elem){
-    if (root != NULL)
+    if (cur_elem != NULL)
     {
-        tree_element* r = root->right;
-        tree_element* l = root->left;
+        tree_element* r = cur_elem->right;
+        tree_element* l = cur_elem->left;
         if(r) destroy(r);
         if(l) destroy(l);
-        delete root;
+        delete cur_elem;
     }
 }
 
