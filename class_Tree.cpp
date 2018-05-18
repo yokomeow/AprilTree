@@ -15,8 +15,8 @@ void SimpleTree::destroy(tree_element* cur_elem){
     {
         tree_element* r = root->right;
         tree_element* l = root->left;
-        destroy(r);
-        destroy(l);
+        if(r) destroy(r);
+        if(l) destroy(l);
         delete root;
     }
 }
