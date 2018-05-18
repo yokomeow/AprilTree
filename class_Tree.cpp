@@ -133,7 +133,7 @@ tree_element* SimpleTree::create(int value)
 
 void SimpleTree::insert(int value)
 {
-    // Ñîçäàëè ýëåìåíò ôèçè÷åñêè
+    // Создали элемент физически
     tree_element* elem = this->create(value);
 
     tree_element* prom = this->root;
@@ -186,21 +186,18 @@ tree_element* SimpleTree::insert2(tree_element* prom, tree_element* elem)
 
 bool SimpleTree::exists(int value)
 {
-    tree_element* cur_element = this->find(value);
-    return cur_element != NULL;
+    return ((this->root != NULL)? (this->find(value)) : (NULL));
 }
 
 tree_element* SimpleTree::find(int value)
 {
     tree_element* cur_element = this->root;
-    return find2(cur_element, value);
+    if (this->root != NULL) return find2(cur_element, value);
     return NULL;
 }
 
 tree_element* SimpleTree::find2(tree_element* prom, int value)
 {
-    //tree_element* prom = root;
-
     if (prom->value == value) return prom;
 
     if ((prom->value != value) && (prom->left != NULL))
@@ -213,7 +210,9 @@ tree_element* SimpleTree::find2(tree_element* prom, int value)
 void SimpleTree::print()
 {
     tree_element* cur_element = this->root;
+    if (this->root != NULL)
     print2(cur_element);
+    else return;
 }
 
 void SimpleTree::print2(tree_element* cur_element)
