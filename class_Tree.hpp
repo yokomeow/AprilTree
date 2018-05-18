@@ -39,6 +39,7 @@ protected:
     tree_element* rotateright(tree_element* p);
     tree_element* rotateleft(tree_element* q);
     tree_element* balance(tree_element* p);
+    void destroy(tree_element* cur_elem);
 
     tree_element* root;
 
