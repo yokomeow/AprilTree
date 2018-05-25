@@ -38,6 +38,7 @@ protected:
     tree_element* rotateright(tree_element* p);
     tree_element* rotateleft(tree_element* q);
     tree_element* balance(tree_element* p);
+    tree_element* balanceleft(tree_element* p);
     void destroy(tree_element* cur_elem);
     int defHeight(tree_element* cur_elem);
 
