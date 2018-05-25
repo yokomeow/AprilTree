@@ -134,11 +134,12 @@ tree_element* SimpleTree::find2(tree_element* prom, int value)
 {
     if(prom->value == value) return prom;
 
-    if((prom->value != value) && (prom->left != NULL))
-        find2(prom->left, value);
+    if((prom->value >= value) && (prom->left != NULL))
+        return find2(prom->left, value);
 
-    if((prom->value != value) && (prom->right != NULL))
-        find2(prom->right, value);
+    if((prom->value <= value) && (prom->right != NULL))
+        return find2(prom->right, value);
+    return prom;
 }
 
 tree_element* SimpleTree::rotateright(tree_element* p) // правый поворот вокруг p
