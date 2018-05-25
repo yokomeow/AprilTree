@@ -45,7 +45,7 @@ int main()
 {
     Container* c = new DebugTree();
 
-    for(int i = 1; i < 10; i++)
+    for(int i = 1; i < 6; i++)
         c->insert(i*i);
 
     cerr << "Tree after creation:" << endl;
