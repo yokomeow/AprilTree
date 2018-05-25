@@ -163,13 +163,14 @@ tree_element* SimpleTree::rotateleft(tree_element* q) // левый поворо
     tree_element* p = q->right;
     p->parent = q->parent;
     q->right = p->left;
+    if(p->left) p->left->parent = q;
     p->left = q; 
     q->parent = p;
     //q->right->parent = NULL;
-    defHeight(p);
     defHeight(q);
-    //q->parent = NULL;
-    if(!p->parent) this->root = p;
+    defHeight(p);
+    if(p->parent == NULL) this->root = p;
+    else p->parent->right = p;
     return p;
 }
 
