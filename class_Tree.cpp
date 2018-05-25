@@ -148,6 +148,7 @@ tree_element* SimpleTree::rotateright(tree_element* p) // правый пово�
     tree_element* q = p->left;
     q->parent = p->parent;
     p->left = q->right;
+    if(q->right) q->right->parent = p;
     q->right = p;
     
     p->parent = q;
@@ -155,6 +156,7 @@ tree_element* SimpleTree::rotateright(tree_element* p) // правый пово�
     defHeight(q);
     //q->parent = NULL;
     if(!q->parent) this->root = q;
+    else q->parent->left = q;
     return q;
 }
 
@@ -212,7 +214,44 @@ tree_element* SimpleTree::balance(tree_element* p) // балансировка �
 
     return p; // балансировка не нужна
 }
+tree_element* SimpleTree::balanceleft(tree_element* p) // балансировка узла p
+{
+    defHeight(p);
 
+    if(p->left) if(p->left->left) balanceleft(p->left);
+
+
+    if(height(p->right) - height(p->left) == 2 && height(p->right->left) <= height(p->right->right))
+    {
+        rotateleft(p);
+        return p;
+    }
+
+    if(height(p->right) - height(p->left) == 2 && height(p->right->left) > height(p->right->right))
+    {
+        rotateright(p->right);
+        rotateleft(p);
+        return p;
+    }
+
+    if(height(p->left) - height(p->right) == 2)
+    {
+        rotateright(p);
+        return p;
+    }
+
+    if(height(p->right) - height(p->right->right) == 2 && height(p->right->left) > height(p->right->right))
+    {
+        rotateleft(p->left);
+        rotateright(p);
+        return p;
+    }
+
+    //if(p->left) if(p->left->left) balance(p->left->left);
+
+   // if(p->parent) this->root = p->parent;
+    return p; // балансировка не нужна
+}
 void SimpleTree::delete_tree(tree_element* cur_elem)
 {
     if (cur_elem->left != NULL)
