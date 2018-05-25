@@ -29,20 +29,16 @@ SimpleTree::~SimpleTree()
 
 int SimpleTree::defHeight(tree_element* cur_elem)
 {
-    if(!cur_elem) return 0;
-    if(cur_elem->right)
-        if(cur_elem->left)
+    if(!cur_elem) return -1;
+
+    int l = defHeight(cur_elem->left);
+    int r = defHeight(cur_elem->right);
+
+    if(!cur_elem->right && !cur_elem->left)
             {
-                int l = defHeight(cur_elem->left);
-                int r = defHeight(cur_elem->right);
-                return cur_elem->height = ((l > r)? l : r) + 1;
+                return cur_elem->height = 0;
             }
-        else
-            return cur_elem->height = defHeight(cur_elem->right) + 1;
-    else if(cur_elem->left)
-            return cur_elem->height = defHeight(cur_elem->left) + 1;
-    else
-        return 1;
+    return cur_elem->height = ((l > r)? l : r) + 1;
 }
 
 void SimpleTree::fixheight(tree_element* cur_elem)
@@ -56,7 +52,7 @@ void SimpleTree::fixheight(tree_element* cur_elem)
 
 int SimpleTree::height(tree_element* p)
 {
-    return (p? p->height : 0);
+    return (p? p->height : -1);
 }
 
 tree_element* SimpleTree::create(int value)
@@ -69,7 +65,7 @@ tree_element* SimpleTree::create(int value)
     elem->left = NULL;
     elem->right = NULL;
     elem->parent = NULL;
-    elem->height = 1;
+    elem->height = 0;
     return elem;
 }
 
@@ -95,6 +91,7 @@ tree_element* SimpleTree::insert2(tree_element* prom, tree_element* elem)
         elem->parent = prom;
         //cout << elem->value << endl;
         //cout << elem->value << ' ' << defHeight(elem) << endl;
+        defHeight(this->root);
         return balance(this->root);
     }
 
@@ -104,6 +101,7 @@ tree_element* SimpleTree::insert2(tree_element* prom, tree_element* elem)
         elem->parent = prom;
         //cout << elem->value << endl;
         //cout << elem->value << ' ' << defHeight(elem) << endl;
+        defHeight(this->root);
         return balance(this->root);
     }
 
@@ -152,10 +150,10 @@ tree_element* SimpleTree::rotateright(tree_element* p) // правый пово�
     q->right = p;
     
     p->parent = q;
-    fixheight(p);
-    fixheight(q);
+    defHeight(p);
+    defHeight(q);
     //q->parent = NULL;
-    this->root = q;
+    if(!q->parent) this->root = q;
     return q;
 }
 
@@ -168,15 +166,21 @@ tree_element* SimpleTree::rotateleft(tree_element* q) // левый поворо
     p->left = q; 
     q->parent = p;
     //q->right->parent = NULL;
-    fixheight(q);
-    fixheight(p);
-    this->root = p;
+    defHeight(p);
+    defHeight(q);
+    //q->parent = NULL;
+    if(!p->parent) this->root = p;
     return p;
 }
 
 tree_element* SimpleTree::balance(tree_element* p) // балансировка узла p
 {
-    fixheight(p);
+        defHeight(p);
+
+    //if(p->right && (p->right->right || p->right->left)) balance(p->right);
+    //if(!p->right) return NULL;
+    //if(p->right->right) balance(p->right->right);
+    if(p->right->right) balance(p->right);
 
     if(height(p->right) - height(p->left) == 2 && height(p->right->left) <= height(p->right->right))
     {
